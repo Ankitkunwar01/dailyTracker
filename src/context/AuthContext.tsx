@@ -22,7 +22,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = (email: string, pass: string) => {
-    if (email === "user@gmail.com" && pass === "user123@") {
+    if (email === "ankit@gmail.com" && pass === "ankit123@") {
       setIsAuthenticated(true);
       // Set a cookie for 24 hours
       document.cookie = "aiOS_auth=true; path=/; max-age=86400; SameSite=Lax";

@@ -33,17 +33,17 @@ export default function LoginPage({ darkMode }: any) {
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
             <label className={`block text-xs font-medium mb-1 ${textMuted}`}>Email</label>
-            <input type="email" value={email} onChange={e => setEmail(e.target.value)} className={`w-full px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${inputBg} border ${borderMain} ${textMain}`} placeholder="user@gmail.com" />
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} className={`w-full px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${inputBg} border ${borderMain} ${textMain}`} placeholder="Enter your email" />
           </div>
           <div>
             <label className={`block text-xs font-medium mb-1 ${textMuted}`}>Password</label>
-            <input type="password" value={pass} onChange={e => setPass(e.target.value)} className={`w-full px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${inputBg} border ${borderMain} ${textMain}`} placeholder="user123@" />
+            <input type="password" value={pass} onChange={e => setPass(e.target.value)} className={`w-full px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${inputBg} border ${borderMain} ${textMain}`} placeholder="Enter your password" />
           </div>
           {error && <p className="text-red-500 text-sm font-medium text-center">{error}</p>}
           <button type="submit" className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-colors shadow-lg shadow-blue-500/20">Enter Workspace</button>
         </form>
         <div className={`mt-6 text-center text-xs ${textMuted}`}>
-          <p>Demo Credentials:</p><p>user@gmail.com / user123@</p>
+          {/* <p>Demo Credentials:</p><p>user@gmail.com / user123@</p> */}
         </div>
       </motion.div>
     </div>
