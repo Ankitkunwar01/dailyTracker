@@ -42,9 +42,9 @@ export default function LoginPage({ darkMode }: any) {
           {error && <p className="text-red-500 text-sm font-medium text-center">{error}</p>}
           <button type="submit" className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-colors shadow-lg shadow-blue-500/20">Enter Workspace</button>
         </form>
-        <div className={`mt-6 text-center text-xs ${textMuted}`}>
+        {/* <div className={`mt-6 text-center text-xs ${textMuted}`}>
           <p>Demo Credentials:</p><p>ankit@gmail.com / ankit123@</p>
-        </div>
+        </div> */}
       </motion.div>
     </div>
   );
