@@ -96,6 +96,12 @@ export function TaskProvider({ children }: { children: React.ReactNode }) {
   };
 
   const addTodo = async (text: string) => {
+    const todayStr = new Date().toDateString();
+    if (selectedCalendarDate !== todayStr && new Date(selectedCalendarDate) < new Date(todayStr)) {
+      console.warn("Cannot add tasks to past dates");
+      return;
+    }
+
     try {
       const res = await fetch('/api/tasks', {
         method: 'POST',
@@ -115,6 +121,12 @@ export function TaskProvider({ children }: { children: React.ReactNode }) {
     try {
       const todo = todos.find(t => t.id === id);
       if (!todo) return;
+
+      const todayStr = new Date().toDateString();
+      if (todo.date !== todayStr && new Date(todo.date) < new Date(todayStr)) {
+        console.warn("Cannot update tasks from past dates");
+        return;
+      }
 
       setTodos(prev => prev.map(t => t.id === id ? { ...t, text } : t));
 
@@ -153,6 +165,15 @@ export function TaskProvider({ children }: { children: React.ReactNode }) {
   };
 
   const deleteTodo = async (id: string) => {
+    const todo = todos.find(t => t.id === id);
+    if (!todo) return;
+
+    const todayStr = new Date().toDateString();
+    if (todo.date !== todayStr && new Date(todo.date) < new Date(todayStr)) {
+      console.warn("Cannot delete tasks from past dates");
+      return;
+    }
+
     try {
       setTodos(prev => prev.filter(t => t.id !== id));
       await fetch('/api/tasks', {

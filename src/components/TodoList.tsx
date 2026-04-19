@@ -105,9 +105,11 @@ export default function TodoList({ todos, onToggle, onDelete, onUpdate, darkMode
                         <Edit2 size={16} />
                       </button>
                     )}
-                    <button onClick={() => onDelete(todo.id)} className={`opacity-0 group-hover:opacity-100 p-2 text-red-400 hover:bg-red-400/10 rounded-lg transition-all`}>
-                      <Trash2 size={16} />
-                    </button>
+                    {!isPast && (
+                      <button onClick={() => onDelete(todo.id)} className={`opacity-0 group-hover:opacity-100 p-2 text-red-400 hover:bg-red-400/10 rounded-lg transition-all`}>
+                        <Trash2 size={16} />
+                      </button>
+                    )}
                   </>
                 )}
               </div>
