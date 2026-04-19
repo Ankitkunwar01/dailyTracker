@@ -43,7 +43,7 @@ export default function LoginPage({ darkMode }: any) {
           <button type="submit" className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-colors shadow-lg shadow-blue-500/20">Enter Workspace</button>
         </form>
         <div className={`mt-6 text-center text-xs ${textMuted}`}>
-          {/* <p>Demo Credentials:</p><p>user@gmail.com / user123@</p> */}
+          <p>Demo Credentials:</p><p>ankit@gmail.com / ankit123@</p>
         </div>
       </motion.div>
     </div>

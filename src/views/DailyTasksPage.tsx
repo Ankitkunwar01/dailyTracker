@@ -7,7 +7,7 @@ import { useTasks } from '../context/TaskContext';
 import TodoList from '../components/TodoList';
 
 export default function DailyTasksPage({ darkMode, handleToggleTodo }: any) {
-  const { todos, selectedCalendarDate, addTodo, deleteTodo } = useTasks();
+  const { todos, selectedCalendarDate, addTodo, updateTodo, deleteTodo, toggleTodo } = useTasks();
   const [newTodoText, setNewTodoText] = useState("");
 
   const activeTodos = todos.filter(t => t.date === selectedCalendarDate);
@@ -41,7 +41,13 @@ export default function DailyTasksPage({ darkMode, handleToggleTodo }: any) {
         </motion.button>
       </div>
 
-      <TodoList todos={activeTodos} onToggle={handleToggleTodo} onDelete={deleteTodo} darkMode={darkMode} />
+      <TodoList 
+        todos={activeTodos} 
+        onToggle={toggleTodo} 
+        onDelete={deleteTodo} 
+        onUpdate={updateTodo}
+        darkMode={darkMode} 
+      />
     </div>
   );
 }

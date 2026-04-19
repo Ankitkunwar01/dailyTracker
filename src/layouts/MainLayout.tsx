@@ -119,7 +119,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
       <ConfirmModal 
         isOpen={showConfirmModal} title="Mark as Complete?" 
-        message={<p>Are you sure you want to mark <span className="font-semibold text-blue-500">"{pendingAction?.title}"</span> as completed?</p>}
+        message={<p>Are you sure you want to mark <span className="font-semibold text-blue-500">&quot;{pendingAction?.title}&quot;</span> as completed?</p>}
         onConfirm={confirmCompletion} onCancel={() => setShowConfirmModal(false)} darkMode={darkMode}
       />
 

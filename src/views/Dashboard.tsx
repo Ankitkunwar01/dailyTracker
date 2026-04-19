@@ -39,6 +39,8 @@ export default function Dashboard({ setView, handleToggleTopic, handleToggleTodo
     if (nextTopic) break;
   }
 
+  const todayStr = new Date().toDateString();
+
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="show" className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -71,25 +73,38 @@ export default function Dashboard({ setView, handleToggleTopic, handleToggleTodo
                 </div>
                 <button onClick={() => handleToggleTopic(cIdx, tIdx)} className="w-10 h-10 rounded-full bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center shadow-md"><CheckCircle2 size={20} /></button>
               </div>
-            ) : <p className={textMuted}>You've completed everything! 🎉</p>}
+            ) : <p className={textMuted}>You&apos;ve completed everything! 🎉</p>}
           </motion.div>
           <motion.div variants={itemVariants} className={`p-6 rounded-3xl border ${borderMain} ${cardBg} shadow-sm`}>
             <h3 className="text-lg font-bold mb-4">Activity Overview</h3>
             <GraphChart data={lineChartData} darkMode={darkMode} />
           </motion.div>
         </div>
+        
         <motion.div variants={itemVariants} className={`p-6 rounded-3xl border ${borderMain} ${cardBg} shadow-sm h-full`}>
-          <div className="flex justify-between items-center mb-4"><h3 className="text-lg font-bold">Today's Tasks</h3><button onClick={() => setView("tasks")} className="text-xs font-semibold text-blue-500 hover:underline">View All</button></div>
+          <div className="flex justify-between items-center mb-4"><h3 className="text-lg font-bold">Today&apos;s Tasks</h3><button onClick={() => setView("tasks")} className="text-xs font-semibold text-blue-500 hover:underline">View All</button></div>
           {activeTodos.length === 0 ? (
             <div className="text-center py-10"><ListTodo size={32} className={`mx-auto mb-2 ${textMuted} opacity-50`} /><p className={`text-sm ${textMuted}`}>No tasks set for today.</p></div>
           ) : (
             <div className="space-y-3">
-              {activeTodos.slice(0,5).map(t => (
-                <div key={t.id} className="flex items-center gap-3">
-                  <CheckboxItem isCompleted={t.completed} onToggle={() => handleToggleTodo(t.id)} type="square" size={18} />
-                  <span className={`text-sm truncate ${t.completed ? `line-through opacity-50` : ''}`}>{t.text}</span>
-                </div>
-              ))}
+              {activeTodos.slice(0,5).map(t => {
+                const isPast = t.date !== todayStr && new Date(t.date) < new Date(todayStr);
+                return (
+                  <div key={t.id} className="flex items-center gap-3">
+                    <CheckboxItem 
+                      isCompleted={t.completed} 
+                      onToggle={() => !isPast && handleToggleTodo(t.id)} 
+                      type="square" 
+                      size={18} 
+                      disabled={isPast}
+                    />
+                    <span className={`text-sm truncate ${t.completed ? `line-through opacity-50` : ''}`}>
+                      {t.text}
+                      {isPast && !t.completed && <span className="ml-1 text-[8px] text-red-500 font-bold">(PAST)</span>}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           )}
         </motion.div>
