@@ -51,24 +51,24 @@ export default function TodoList({ todos, onToggle, onDelete, onUpdate, darkMode
       <AnimatePresence>
         {todos.map(todo => {
           const isPast = todo.date !== todayStr && new Date(todo.date) < new Date(todayStr);
-          
+
           return (
-            <motion.div 
-              key={todo.id} 
-              initial={{ opacity: 0, scale: 0.95 }} 
-              animate={{ opacity: 1, scale: 1 }} 
-              exit={{ opacity: 0, scale: 0.95 }} 
+            <motion.div
+              key={todo.id}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
               layout
               className={`group flex items-center justify-between p-4 rounded-2xl border transition-all duration-300 ${todo.completed ? `bg-blue-500/5 border-blue-500/20` : `${cardBg} ${borderMain} hover:border-blue-500/30`}`}
             >
               <div className="flex items-center gap-4 flex-1">
-                <CheckboxItem 
-                  isCompleted={todo.completed} 
-                  onToggle={() => !isPast && onToggle(todo.id)} 
-                  type="square" 
+                <CheckboxItem
+                  isCompleted={todo.completed}
+                  onToggle={() => !isPast && onToggle(todo.id)}
+                  type="square"
                   disabled={isPast}
                 />
-                
+
                 {editingId === todo.id ? (
                   <input
                     autoFocus

@@ -29,15 +29,15 @@ export default function DailyTasksPage({ darkMode, handleToggleTodo }: any) {
     <div className="max-w-2xl mx-auto space-y-8">
       <div className="mb-8 relative">
         <input
-          type="text" 
+          type="text"
           placeholder={isPastDate ? `Cannot add tasks to past dates (${selectedCalendarDate})` : `Add a new task for ${selectedCalendarDate}...`}
           value={newTodoText} onChange={(e) => setNewTodoText(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && !isPastDate && handleAddTodo()}
           disabled={isPastDate}
           className={`w-full pl-5 pr-12 py-4 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all ${inputBg} border ${borderMain} shadow-inner ${isPastDate ? 'opacity-50 cursor-not-allowed' : ''}`}
         />
-        <motion.button 
-          whileHover={isPastDate ? {} : { scale: 1.05 }} 
+        <motion.button
+          whileHover={isPastDate ? {} : { scale: 1.05 }}
           whileTap={isPastDate ? {} : { scale: 0.95 }}
           onClick={handleAddTodo}
           className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-md transition-colors disabled:opacity-50"
@@ -47,12 +47,12 @@ export default function DailyTasksPage({ darkMode, handleToggleTodo }: any) {
         </motion.button>
       </div>
 
-      <TodoList 
-        todos={activeTodos} 
-        onToggle={toggleTodo} 
-        onDelete={deleteTodo} 
+      <TodoList
+        todos={activeTodos}
+        onToggle={handleToggleTodo}
+        onDelete={deleteTodo}
         onUpdate={updateTodo}
-        darkMode={darkMode} 
+        darkMode={darkMode}
       />
     </div>
   );

@@ -47,35 +47,40 @@ export function TaskProvider({ children }: { children: React.ReactNode }) {
 
         // Rollover logic: move incomplete tasks from past to today
         const todayStr = new Date().toDateString();
-        const incompletePastTasks = fetchedTodos.filter((t: Todo) => 
-          !t.completed && 
-          t.date !== todayStr && 
+        const incompletePastTasks = fetchedTodos.filter((t: Todo) =>
+          !t.completed &&
+          t.date !== todayStr &&
           new Date(t.date) < new Date(todayStr)
         );
 
         if (incompletePastTasks.length > 0) {
           let updated = false;
-          const newTodos = [...fetchedTodos];
-          
+          const currentTodos = [...fetchedTodos];
+
           for (const task of incompletePastTasks) {
-            const alreadyExistsToday = fetchedTodos.some((t: Todo) => 
-              t.text === task.text && t.date === todayStr
+            // Check against both fetched and newly added todos in this session
+            const alreadyExistsToday = currentTodos.some((t: Todo) =>
+              t.text.trim() === task.text.trim() && t.date === todayStr
             );
-            
+
             if (!alreadyExistsToday) {
-              const res = await fetch('/api/tasks', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: userEmail, text: task.text, date: todayStr })
-              });
-              const newTask = await res.json();
-              if (!newTask.error) {
-                newTodos.push({ ...newTask, id: newTask._id });
-                updated = true;
+              try {
+                const res = await fetch('/api/tasks', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email: userEmail, text: task.text, date: todayStr, completed: false })
+                });
+                const newTask = await res.json();
+                if (!newTask.error) {
+                  currentTodos.push({ ...newTask, id: newTask._id });
+                  updated = true;
+                }
+              } catch (err) {
+                console.error("Failed to rollover task:", err);
               }
             }
           }
-          if (updated) setTodos(newTodos);
+          if (updated) setTodos(currentTodos);
         }
       }
     } catch (err) {
@@ -157,7 +162,7 @@ export function TaskProvider({ children }: { children: React.ReactNode }) {
       await fetch('/api/tasks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: userEmail, id, completed: newCompleted })
+        body: JSON.stringify({ email: userEmail, id, completed: newCompleted, text: todo.text, date: todo.date })
       });
     } catch (err) {
       console.error("Failed to toggle task:", err);
@@ -206,7 +211,7 @@ export function TaskProvider({ children }: { children: React.ReactNode }) {
       fetchStreak();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated]); 
+  }, [isAuthenticated]);
 
   return (
     <TaskContext.Provider value={{ todos, streak, loading, selectedCalendarDate, setSelectedCalendarDate, addTodo, updateTodo, toggleTodo, deleteTodo, incrementStreak }}>

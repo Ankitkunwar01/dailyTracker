@@ -11,7 +11,7 @@ import { useProgress } from '../context/ProgressContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
 
-type View = "dashboard" | "tasks" | "roadmap" | "courses" | "progress" | "settings";
+type View = "dashboard" | "tasks" | "roadmap" | "courses" | "progress" | "settings" | "backend-roadmap";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const { logout } = useAuth();

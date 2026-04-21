@@ -57,6 +57,7 @@ export default function Sidebar({
             { id: "tasks", icon: <CheckSquare size={16} />, label: "Daily Tasks" },
             { id: "roadmap", icon: <BookOpen size={16} />, label: "Roadmap" },
             { id: "courses", icon: <Video size={16} />, label: "Courses" },
+            { id: "backend-roadmap", icon: <Layers size={16} />, label: "Backend Roadmap" },
             { id: "progress", icon: <BarChart2 size={16} />, label: "Progress" },
           ].map(item => (
             <button
@@ -81,7 +82,7 @@ export default function Sidebar({
             </div>
           </div>
           <div className="grid grid-cols-7 gap-1 text-center text-[10px] mb-1 text-neutral-500">
-            {['S','M','T','W','T','F','S'].map((d, i) => <div key={i}>{d}</div>)}
+            {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={i}>{d}</div>)}
           </div>
           <div className="grid grid-cols-7 gap-1 text-center text-[10px]">
             {Array.from({ length: firstDay }).map((_, i) => <div key={`empty-${i}`} />)}

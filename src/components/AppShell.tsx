@@ -12,6 +12,7 @@ import DailyTasksPage from '../views/DailyTasksPage';
 import ProgressPage from '../views/ProgressPage';
 import CoursesPage from '../views/CoursesPage';
 import SettingsPage from '../views/SettingsPage';
+import BackendRoadmapPage from '../views/BackendRoadmapPage';
 import { Loader2 } from 'lucide-react';
 
 export default function AppShell() {
@@ -43,6 +44,7 @@ function ViewManager({ view, setView, searchQuery, darkMode, setDarkMode, handle
     case "tasks": return <DailyTasksPage darkMode={darkMode} handleToggleTodo={handleToggleTodo} />;
     case "progress": return <ProgressPage darkMode={darkMode} />;
     case "courses": return <CoursesPage darkMode={darkMode} />;
+    case "backend-roadmap": return <BackendRoadmapPage darkMode={darkMode} />;
     case "settings": return <SettingsPage darkMode={darkMode} setDarkMode={setDarkMode} resetAll={resetAll} textMuted={darkMode ? 'text-neutral-400' : 'text-neutral-500'} />;
     default: return <Dashboard setView={setView} handleToggleTopic={handleToggleTopic} handleToggleTodo={handleToggleTodo} darkMode={darkMode} />;
   }
