@@ -55,28 +55,48 @@ export function TaskProvider({ children }: { children: React.ReactNode }) {
 
         if (incompletePastTasks.length > 0) {
           let updated = false;
-          const currentTodos = [...fetchedTodos];
+          let currentTodos = [...fetchedTodos];
 
           for (const task of incompletePastTasks) {
-            // Check against both fetched and newly added todos in this session
+            // Check if task with same text already exists today
             const alreadyExistsToday = currentTodos.some((t: Todo) =>
               t.text.trim() === task.text.trim() && t.date === todayStr
             );
 
             if (!alreadyExistsToday) {
               try {
+                // Move the task to today by updating its date (keeps same ID)
                 const res = await fetch('/api/tasks', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ email: userEmail, text: task.text, date: todayStr, completed: false })
+                  body: JSON.stringify({ 
+                    email: userEmail, 
+                    id: task.id, 
+                    text: task.text, 
+                    date: todayStr, 
+                    completed: false 
+                  })
                 });
-                const newTask = await res.json();
-                if (!newTask.error) {
-                  currentTodos.push({ ...newTask, id: newTask._id });
+                const updatedTask = await res.json();
+                if (!updatedTask.error) {
+                  currentTodos = currentTodos.map(t => t.id === task.id ? { ...updatedTask, id: updatedTask._id } : t);
                   updated = true;
                 }
               } catch (err) {
                 console.error("Failed to rollover task:", err);
+              }
+            } else {
+              // Task already exists today, so we delete the old incomplete one to avoid duplication
+              try {
+                await fetch('/api/tasks', {
+                  method: 'DELETE',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ id: task.id })
+                });
+                currentTodos = currentTodos.filter(t => t.id !== task.id);
+                updated = true;
+              } catch (err) {
+                console.error("Failed to delete redundant task:", err);
               }
             }
           }
